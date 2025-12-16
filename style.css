@@ -316,7 +316,7 @@ h4 {
 .item{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: .7rem;
     padding: .7rem 1rem;
 }
@@ -328,6 +328,15 @@ h4 {
     width: 5rem;
 }
 
+.item .quantity-container{
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.item .detail{
+  flex: 2;
+  text-align: left;
+}
 
 .item h4{
     font-size: 1.3rem;
@@ -343,11 +352,12 @@ h4 {
 .quantity-btn{
     background: var(--lead);
     color: var(--pure-white);
-    width: 1.4rem;
+    width: 1.6rem;
+    height: 1.6rem;
     aspect-ratio: 1;
     border-radius: 50px;
     text-align: center;
-    line-height: 1.22rem;
+    line-height: 1.44rem;
 }
 .quantity-btn i{
     font-size: 12px;
