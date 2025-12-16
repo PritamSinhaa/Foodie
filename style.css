@@ -270,6 +270,7 @@ h4 {
   align-items: center;
   z-index: 90;
   box-shadow: rgba(0, 0, 0, 0.13) -10px -10px 20px;
+  transition: inset .3s ease-in-out;
 }
 
 .cart-tab-active{
