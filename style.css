@@ -319,6 +319,11 @@ h4 {
     justify-content: space-between;
     gap: .7rem;
     padding: .7rem 1rem;
+    transition: all .5s ease-in-out;
+}
+
+.item.slide-out{
+  transform: translateX(50%);
 }
 
 .cart-list .item:nth-child(even){

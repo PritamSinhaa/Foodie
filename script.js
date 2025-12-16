@@ -1,34 +1,31 @@
 var swiper = new Swiper(".mySwiper", {
-      loop:true,
-      navigation: {
-        nextEl: ".arrow-left",
-        prevEl: ".arrow-right",
-      },
-    });
+  loop: true,
+  navigation: {
+    nextEl: ".arrow-left",
+    prevEl: ".arrow-right",
+  },
+});
 
- const cartIcon = document.querySelector(".cart-icon") 
- const cartTab = document.querySelector(".cart-tab") 
- const closeButton = document.querySelector(".close-btn")
- const cardList = document.querySelector(".card-list") 
- const cartList = document.querySelector(".cart-list")
+const cartIcon = document.querySelector(".cart-icon");
+const cartTab = document.querySelector(".cart-tab");
+const closeButton = document.querySelector(".close-btn");
+const cardList = document.querySelector(".card-list");
+const cartList = document.querySelector(".cart-list");
 
- const openCart = () => cartTab.classList.toggle("cart-tab-active")
- 
+const openCart = () => cartTab.classList.toggle("cart-tab-active");
 
- cartIcon.addEventListener("click",openCart)
- closeButton.addEventListener("click",openCart)
+cartIcon.addEventListener("click", openCart);
+closeButton.addEventListener("click", openCart);
 
- let productList = [];
- let cartProduct = [];
+let productList = [];
+let cartProduct = [];
 
- const showCards = () => {
+const showCards = () => {
+  productList.forEach((product) => {
+    const orderCard = document.createElement("div");
+    orderCard.classList.add("order-card");
 
-  productList.forEach(product=>{
-
-    const orderCard = document.createElement('div');
-    orderCard.classList.add("order-card")
-
-    orderCard.innerHTML= `
+    orderCard.innerHTML = `
               <div class="card-image">
                 <img src="./assets/${product.image}" alt="">
               </div>
@@ -37,35 +34,28 @@ var swiper = new Swiper(".mySwiper", {
               <a href="#" class="btn card-btn">Add to Cart</a>
               `;
 
-              cardList.appendChild(orderCard);
+    cardList.appendChild(orderCard);
 
-              const cardBtn = orderCard.querySelector(".card-btn")
+    const cardBtn = orderCard.querySelector(".card-btn");
 
-              cardBtn.addEventListener("click", (e)=>{
-                e.preventDefault();
-                
-                addTocart(product);
-              })
+    cardBtn.addEventListener("click", (e) => {
+      e.preventDefault();
 
-
-
-    
+      addTocart(product);
+    });
   });
+};
 
- };
-
- const addTocart = (product) =>{
-
-  const existingProduct = cartProduct.find(item => item.id === product.id);
-  if(existingProduct){
+const addTocart = (product) => {
+  const existingProduct = cartProduct.find((item) => item.id === product.id);
+  if (existingProduct) {
     alert("Item already in your cart");
     return;
   }
 
   cartProduct.push(product);
   let quantity = 1;
-  let price = parseFloat(product.price.replace('$',''))
-
+  let price = parseFloat(product.price.replace("$", ""));
 
   const cartItem = document.createElement("div");
   cartItem.classList.add("item");
@@ -92,28 +82,40 @@ var swiper = new Swiper(".mySwiper", {
   cartList.appendChild(cartItem);
 
   const plusBtn = cartItem.querySelector(".plus");
+  const minusBtn = cartItem.querySelector(".minus");
   const quantityvalue = cartItem.querySelector(".quantity-value");
-  const itemTotal = cartItem.querySelector(".item-total")
+  const itemTotal = cartItem.querySelector(".item-total");
 
-  plusBtn.addEventListener("click", (e)=>{
+  plusBtn.addEventListener("click", (e) => {
     e.preventDefault();
     quantity++;
-    quantityvalue.textContent=quantity;
-    itemTotal.textContent=`$${price*quantity}`
-  })
+    quantityvalue.textContent = quantity;
+    itemTotal.textContent = `$${(price * quantity).toFixed(2)}`;
+  });
 
- }
+  minusBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (quantity > 1) {
+      quantity--;
+      quantityvalue.textContent = quantity;
+      itemTotal.textContent = `$${(price * quantity).toFixed(2)}`;
+    } else {
+      cartItem.classList.add("slide-out");
+      setTimeout(() => {
+        cartItem.remove();
+        cartProduct = cartProduct.filter((item) => item.id !== product.id);
+      }, 300);
+    }
+  });
+};
 
- const initApp = () =>{
+const initApp = () => {
+  fetch("products.json")
+    .then((response) => response.json())
+    .then((data) => {
+      productList = data;
+      showCards();
+    });
+};
 
-  fetch("products.json").then
-  (response => response.json()).then
-  (data =>{
-
-    productList = data;
-    showCards();
-  })
-
- }
-
- initApp();
+initApp();
