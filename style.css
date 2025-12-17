@@ -21,7 +21,9 @@ body {
 }
 
 /* BASIC STYLING */
-
+html{
+  scroll-behavior: smooth;
+}
 a {
   font-size: 1.1rem;
   text-decoration: none;
@@ -106,6 +108,9 @@ img {
   font-weight: bold;
 }
 
+.navlist li:hover{
+  transform: scale(1.1);
+}
 .btn {
   display: inline-block;
   padding: 0.9rem 2rem;
